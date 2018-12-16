@@ -11,15 +11,15 @@ class AoCFramework
 {
 public:
     AoCFramework(const std::string& dataPath, const std::function<SolutionType(std::vector<std::string>)>& computation);
-    void run();
+    void run() const;
 
 private:
     // private methods
-    std::vector<std::string> readInput();
-    SolutionType runCalculation();
+    std::vector<std::string> readInput() const;
+    SolutionType runCalculation() const;
 
     // private data
-    const std::string& path;
+    const std::string path;
     const std::function<SolutionType(std::vector<std::string>)>& computation;
 
 };
@@ -27,12 +27,12 @@ private:
 template<typename SolutionType>
 AoCFramework<SolutionType>::AoCFramework(const std::string& dataPath,
     const std::function<SolutionType(std::vector<std::string>)>& computation)
-    : path {dataPath}, computation {computation}
+    : path{dataPath}, computation {computation}
 {
 }
 
 template<typename SolutionType>
-void AoCFramework<SolutionType>::run()
+void AoCFramework<SolutionType>::run() const
 {
     SolutionType answer = runCalculation();
 
@@ -40,13 +40,13 @@ void AoCFramework<SolutionType>::run()
 }
 
 template<typename SolutionType>
-SolutionType AoCFramework<SolutionType>::runCalculation()
+SolutionType AoCFramework<SolutionType>::runCalculation() const
 {
     return computation(readInput());
 }
 
 template<typename SolutionType>
-std::vector<std::string> AoCFramework<SolutionType>::readInput()
+std::vector<std::string> AoCFramework<SolutionType>::readInput() const
 {
     std::ifstream fin;
     std::vector<std::string> lines;
@@ -59,7 +59,10 @@ std::vector<std::string> AoCFramework<SolutionType>::readInput()
 
         std::getline(fin, currentLine);
 
-        lines.push_back(currentLine);
+        if (!currentLine.empty())
+        {
+            lines.push_back(currentLine);
+        }
     }
 
     fin.close();
